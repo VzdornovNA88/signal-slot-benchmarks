@@ -1,0 +1,3 @@
+[submodule "benchmark/lib/signaler"]
+	path = benchmark/lib/signaler
+	url = https://github.com/VzdornovNA88/signaler.git

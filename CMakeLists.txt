@@ -31,6 +31,11 @@ add_library(signal_libraries
     benchmark/lib/mwthinker/Signal/src/mw/signals/connection.cpp
     benchmark/lib/supergrover/sigslot/src/signal.cpp
     benchmark/lib/vdksoft/signals/src/signals.cpp
+
+    benchmark/lib/signaler/src/signal/signal.cpp
+    benchmark/lib/signaler/src/function/function.cpp
+    benchmark/lib/signaler/src/context/detail/inter_contexts_queue/queue_status.cpp
+
 )
 
 target_include_directories (signal_libraries
@@ -81,6 +86,8 @@ add_executable(bench
     benchmark/cpp/benchmark_vdk_st.cpp
     benchmark/cpp/benchmark_wnk.cpp
     benchmark/cpp/benchmark_yas.cpp
+    benchmark/cpp/benchmark_signaler.cpp
+
 )
 
 add_subdirectory(benchmark/lib/iscool)
