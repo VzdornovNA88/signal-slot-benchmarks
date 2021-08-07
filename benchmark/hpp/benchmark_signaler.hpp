@@ -6,8 +6,6 @@
 
 class Signaler
 {
-    SlotScope reg;
-
     NOINLINE(void handler(Rng& rng))
     {
         volatile std::size_t a = rng(); (void)a;
@@ -17,14 +15,12 @@ class Signaler
 
     using Signal = signaler::signal_t<void(Rng&)>;
 
+    Signal::connection_t reg;
+
     template <typename Subject, typename Foo>
     static void connect_method(Subject& subject, Foo& foo)
     {
-        subject.template connect<Foo,&Foo::handler>(&foo);
-
-        // Automatically disconnect when the foo instance is destroyed
-        // Benchmarks require connection management
-        foo.reg = make_slot_scope([&](void*) { subject.disconnect(); });
+        foo.reg = std::move(subject.template connect<Foo,&Foo::handler>(&foo));
     }
     template <typename Subject>
     static void emit_method(Subject& subject, Rng& rng)
@@ -47,12 +43,12 @@ class Signaler
     // NOT IMPLEMENTED FOR THIS LIB
     static double threaded(std::size_t, std::size_t);
 
-    static constexpr const char* C_LIB_NAME = "* VzdornovNA Signaler";
+    static constexpr const char* C_LIB_NAME = "VzdornovNA Signaler";
     static constexpr const char* C_LIB_SOURCE_URL = "https://github.com/VzdornovNA88/signaler.git";
     static constexpr const char* C_LIB_FILE = "benchmark_signaler";
     static constexpr const char* C_LIB_IS_HEADER_ONLY = "-";
     static constexpr const char* C_LIB_DATA_STRUCTURE = "std::vector";
-    static constexpr const char* C_LIB_IS_THREAD_SAFE = "X";
+    static constexpr const char* C_LIB_IS_THREAD_SAFE = "-";
 
     static constexpr const std::size_t C_LIB_SIZEOF_SIGNAL = sizeof(Signal);
 };
